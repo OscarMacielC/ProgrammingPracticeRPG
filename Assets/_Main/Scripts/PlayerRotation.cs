@@ -1,20 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Player Rotation.
+/// 
+/// 'PlayerRotation' is in charge of rotating the character towards the cursor
+/// This script will be a child of the player object
+/// The angle of rotation should be taken in consideration to shoot but not to dash
+/// </summary>
+/// 
 public class PlayerRotation : MonoBehaviour
 {
-    /// <summary>
-    /// Player Rotation.
-    /// 
-    /// 'PlayerRotation' is in charge of rotating the character towards the cursor
-    /// This script will be a child of the player object
-    /// The angle of rotation should be taken in consideration to shoot but not to dash
-    /// </summary>
-
-    #region EDITOR EXPOSED FIELDS
-    #endregion
-
     #region FIELDS
 
     private float _angle;
@@ -26,37 +22,24 @@ public class PlayerRotation : MonoBehaviour
     /// <summary>
     /// Actual angle for character Y rotation (in degrees).
     /// </summary>
-    public float angle
-    {
-        get { return _angle; }
-        set { ; } //Preguntar a Ivan si hacerlo privado o que hacer para que no lo modifiquen
-    }
+    public float angle {get; private set;}
+
     #endregion
 
     #region METHODS
 
+    /// <summary>
+    /// 'RotationInput' makes the object Z axis to face the cursor
+    /// It checks the object location and the cursor location in the camera
+    /// From those two points it gets the angle between them
+    /// </summary>
+    /// 
     private void RotationInput()
     {
-        /// <summary>
-        /// 'RotationInput' makes the object Z axis to face the cursor
-        /// It checks the object location and the cursor location in the camera
-        /// From those two points it gets the angle between them
-        /// </summary>
-        /// 
-        // Get the screen position of the object
-        Vector2 positionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
-
-        // Get the Screen position of the cursor
-        Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
-
-        // Get the angle between the points
-        float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
-
-        // Correct the angle for the character
+        Vector2 objectpositionOnScreen = Camera.main.WorldToViewportPoint(transform.position);
+        Vector2 cursorpositionOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        float angle = AngleBetweenTwoPoints(objectpositionOnScreen, cursorpositionOnScreen);
         _angle = FixAngleToCharacterY(angle);
-
-        // Debug to see the final angle values between the points
-        // Debug.Log("Screen: " + positionOnScreen + " Mouse: " + mouseOnScreen + " Angle: " + _angle);
     }
 
     private void RotateTo(float angle)
@@ -65,7 +48,7 @@ public class PlayerRotation : MonoBehaviour
         /// 'Rotate' applies the rotation y to the transform while maintaining x and z in zero
         /// </summary>
         /// 
-        transform.rotation = Quaternion.Euler(new Vector3(0f, angle, 0f));
+        transform.rotation = Quaternion.Euler(new Vector3(default, angle, default));
     }
 
 
@@ -110,5 +93,4 @@ public class PlayerRotation : MonoBehaviour
     }
 
     #endregion
-
 }

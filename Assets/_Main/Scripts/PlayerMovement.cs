@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Player Movement.
+/// 
+/// 'PlayerMovement' is in charge of moving the character and perform the dashes if there is one available
+/// It does not allow the character to jump or fall, almost like in a 2D game
+/// Rotation will be tracked in a child
+/// </summary>
+/// 
 public class PlayerMovement : MonoBehaviour
 {
-    /// <summary>
-    /// Player Movement.
-    /// 
-    /// 'PlayerMovement' is in charge of moving the character and perform the dashes if there is one available
-    /// It does not allow the character to jump or fall, almost like in a 2D game
-    /// Rotation will be tracked in a child
-    /// </summary>
-
     #region EDITOR EXPOSED FIELDS
 
     [Header("Movement")]
@@ -21,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region FIELDS
+
+    const string HORIZONTALAXISSTR = "Horizontal";
+    const string VERTICALAXISSTR = "Vertical";
+    const string DASHSTR = "Dash";
+
 
     private Vector3 _moveDirection = default;
     private bool _dashRequest = false;
@@ -38,28 +41,24 @@ public class PlayerMovement : MonoBehaviour
         set { _speed = value; }
     }
 
-
     #endregion
 
     #region METHODS
 
     private void HandleInput()
     {
-        //Get the imput for the movement
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
-        _moveDirection = new Vector3(x, 0.0f, z);
+        float x = Input.GetAxisRaw(HORIZONTALAXISSTR);
+        float z = Input.GetAxisRaw(VERTICALAXISSTR);
+        _moveDirection = new Vector3(x, default, z);
 
-        if (Input.GetButtonDown("Dash"))
+        if (Input.GetButtonDown(DASHSTR))
         {
             _dashRequest = true;
         }
-
     }
 
     private void Move()
     {
-        //Apply the movement
         transform.Translate(_moveDirection * Time.deltaTime * _speed);
     }
 
@@ -67,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_dashRequest)
         {
-            transform.Translate(_moveDirection * Time.deltaTime * _speed *30);
+            transform.Translate(_moveDirection * Time.deltaTime * _speed * 30);
             _dashRequest = false;
         }
     }
@@ -93,9 +92,4 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #endregion
-
-
-
-
 }
-
