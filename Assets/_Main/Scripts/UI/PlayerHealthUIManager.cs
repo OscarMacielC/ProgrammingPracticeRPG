@@ -47,7 +47,7 @@ public class PlayerHealthUIManager : MonoBehaviour
         }
     }
 
-    HeartDictionary _heartDictionary;
+    HeartDictionary _heartDictionary=new HeartDictionary();
 
     #endregion
 
@@ -127,6 +127,7 @@ public class PlayerHealthUIManager : MonoBehaviour
         for (int i = default; i < _playerHealth.maxHPLimit; i++)
         {
             GameObject heart = Instantiate(_heart, this.transform);
+            Debug.Log("Instanciated"+heart.name);
             _heartDictionary.Add(i, heart);
             _heartDictionary[i]._heartGO.SetActive(false);
             _heartDictionary[i]._heartAnim.enabled = false;

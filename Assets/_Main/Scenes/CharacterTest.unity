@@ -215,9 +215,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHPLimit: 10
-  _maxHealth: 2
-  _health: 0
-  _HealOnMaxHpUp: 0
+  _maxHealth: 3
+  _health: 1
+  _healOnMaxHpUp: 0
 --- !u!1 &89786445
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,9 +1436,6 @@ MonoBehaviour:
   _hollowHeart: {fileID: 7936880308766945112, guid: 549ebb51edc467d4781db7cfed306460,
     type: 3}
   _hollowHeartImage: {fileID: 0}
-  _maxPooledHearts: 10
-  _maxHPLimit: 10
-  _health: 10
 --- !u!114 &1185202493
 MonoBehaviour:
   m_ObjectHideFlags: 0

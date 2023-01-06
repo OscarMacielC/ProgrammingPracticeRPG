@@ -19,18 +19,18 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("Health")]
     [Tooltip("Upper limit for health or heart containers.")]
-    [SerializeField] private int _maxHPLimit;
+    [SerializeField] private int _maxHPLimit = 10;
     [Tooltip("Maximum health or heart containers.")]
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private int _maxHealth = 3;
     [Tooltip("Actual health or heart containers.")]
-    [SerializeField] private int _health;
+    [SerializeField] private int _health = 1;
 
 
     [Header("Heal on MaxHP upgrade")]
     [Tooltip("Heal a heart when MaxHP should increase.")]
-    [SerializeField] private bool _healOnMaxHpUp;
+    [SerializeField] private bool _healOnMaxHpUp = false;
 
-    private static PlayerHealth _instance;
+    private static PlayerHealth _instance = null;
 
     #endregion
 
