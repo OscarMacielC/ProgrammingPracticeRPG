@@ -2,7 +2,7 @@ using Unity.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Player Rotation.
+/// --Player Rotation--<para></para>
 /// 
 /// 'PlayerRotation' is in charge of rotating the character towards the cursor
 /// This script will be a child of the player object

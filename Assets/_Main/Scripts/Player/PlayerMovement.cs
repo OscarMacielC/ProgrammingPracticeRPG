@@ -1,24 +1,20 @@
 using UnityEngine;
 
 /// <summary>
-/// Player Movement.
+/// --Player Movement--<para></para>
 /// 
-/// 'PlayerMovement' is in charge of moving the character and perform the dashes if there is one available
+/// Is in charge of moving the character and perform the dashes if there is one available
 /// It does not allow the character to jump or fall, almost like in a 2D game
 /// Rotation will be tracked in a child
 /// </summary>
 /// 
 public class PlayerMovement : MonoBehaviour
 {
-    #region EDITOR EXPOSED FIELDS
+    #region FIELDS
 
     [Header("Movement")]
     [Tooltip("Maximum movement speed (in m/s), can go negative.")]
     [SerializeField] private float _speed = 40f;
-
-    #endregion
-
-    #region FIELDS
 
     const string HORIZONTALAXISSTR = "Horizontal";
     const string VERTICALAXISSTR = "Vertical";
