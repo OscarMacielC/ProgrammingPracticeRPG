@@ -12,10 +12,10 @@ public class PlayerHealth : MonoBehaviour
 {
     #region FIELDS
 
-    const int LIFETORESTORE = 1;
-    const int LIFETOINCREASE = 1;
-    const int DAMAGETOTAKE = 1;
-    const int MINHEALTH = 0;
+    const int LIFE_TO_RESTORE = 1;
+    const int LIFE_TO_INCREASE = 1;
+    const int DAMAGE_TO_TAKE = 1;
+    const int MIN_HEALTH = 0;
 
     [Header("Health")]
     [Tooltip("Upper limit for health or heart containers.")]
@@ -25,21 +25,13 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("Actual health or heart containers.")]
     [SerializeField] private int _health = 1;
 
-
     [Header("Heal on MaxHP upgrade")]
     [Tooltip("Heal a heart when MaxHP should increase.")]
     [SerializeField] private bool _healOnMaxHpUp = false;
 
-    private static PlayerHealth _instance = null;
-
     #endregion
 
     #region PROPERTIES
-    /// <summary> Instance of the script for singleton use. </summary>
-    public static PlayerHealth instance
-    {
-        get { return _instance; }
-    }
     /// <summary> Upper HP limit. </summary>
     public int maxHPLimit
     {
@@ -80,18 +72,16 @@ public class PlayerHealth : MonoBehaviour
     #endregion
 
     #region METHODS
+
     public void TakeDamage()
     {
-        if (_health <= MINHEALTH)
+        if (_health <= MIN_HEALTH)
         {
             return;
         }
-        _health -= DAMAGETOTAKE;
+        _health -= DAMAGE_TO_TAKE;
 
-        if (OnDamageTaken != null)
-        {
-            OnDamageTaken.Invoke();
-        }
+        OnDamageTaken?.Invoke();
     }
 
     public void Heal()
@@ -100,13 +90,9 @@ public class PlayerHealth : MonoBehaviour
         {
             return;
         }
-        _health += LIFETORESTORE;
+        _health += LIFE_TO_RESTORE;
 
-
-        if (OnRestoreHP != null)
-        {
-            OnRestoreHP.Invoke();
-        }
+        OnRestoreHP?.Invoke();
     }
 
     public void UpgradeHealth()
@@ -119,36 +105,23 @@ public class PlayerHealth : MonoBehaviour
             }
             return;
         }
-        _maxHealth += LIFETOINCREASE; // "IVAN" Usar ++ o dejarlo para un objeto especial
+        _maxHealth += LIFE_TO_INCREASE; // "IVAN" Usar ++ o dejarlo para un objeto especial
 
         if (_healOnMaxHpUp) // "IVAN" Se usa arriba ¿Hacer función?
         {
             Heal();
         }
 
-        if (OnMaxHealthIncreased != null)
-        {
-            OnMaxHealthIncreased.Invoke();
-        }
+        OnMaxHealthIncreased?.Invoke();
     }
 
     #endregion
 
     #region MONOBEHAVIOUR
 
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-            return;
-        }
-        Destroy(gameObject); // "IVAN" ¿Es mejor destruir script?
-    }
-
     private void Start()
     {
-        //_health = _maxHealth;
+        _health = _maxHealth;
     }
 
     #endregion

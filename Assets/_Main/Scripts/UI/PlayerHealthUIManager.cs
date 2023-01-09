@@ -30,9 +30,9 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private struct HeartUI // "Ivan" Como se nombran los structs
     {
-        public GameObject _heartGO;
-        public Image _heartIMG;
-        public Animator _heartAnim;
+        public GameObject HeartGO;
+        public Image HeartIMG;
+        public Animator HeartAnim;
     }
 
     private class HeartDictionary : Dictionary<int, HeartUI> // "Ivan" Como se nombran los diccionaries
@@ -40,44 +40,38 @@ public class PlayerHealthUIManager : MonoBehaviour
         private HeartUI newHeart;
         internal void Add(int key, GameObject heartGO)
         {
-            newHeart._heartGO = heartGO;
-            newHeart._heartIMG = heartGO.GetComponent<Image>();
-            newHeart._heartAnim = heartGO.GetComponent<Animator>();
+            newHeart.HeartGO = heartGO;
+            newHeart.HeartIMG = heartGO.GetComponent<Image>();
+            newHeart.HeartAnim = heartGO.GetComponent<Animator>();
             this.Add(key, newHeart);
         }
     }
 
-    HeartDictionary _heartDictionary=new HeartDictionary();
+    HeartDictionary _heartDictionary = new HeartDictionary();
 
     #endregion
 
     #region METHODS
 
-    /*
-    private void UpdateHeartUI()
-    {
-        // Podría revisar vida máxima, vida actual y poner los corazones
-    }*/
-
     void TakeDamage() // "Ivan" En lugar de hacer todo esto es mejor un update heartsUI que revise y los haga todos???
     {
-        _heartDictionary[_playerHealth.health]._heartAnim.enabled = false;
-        _heartDictionary[_playerHealth.health]._heartIMG.sprite = _hollowHeartImage.sprite;
+        _heartDictionary[_playerHealth.health].HeartAnim.enabled = false;
+        _heartDictionary[_playerHealth.health].HeartIMG.sprite = _hollowHeartImage.sprite;
     }
 
     void HealHearts()
     {
-        int HeartToChange = _playerHealth.health - 1;
-        _heartDictionary[HeartToChange]._heartAnim.enabled = true;
+        int heartToChange = _playerHealth.health - 1;
+        _heartDictionary[heartToChange].HeartAnim.enabled = true;
     }
 
     void AddHearts()
     {
-        int HeartToChange = _playerHealth.maxHealth - 1; // "Ivan" Usar constante del player?? crear nueva o hacerla variable para no usar -1 ni --
+        int heartToChange = _playerHealth.maxHealth - 1; // "Ivan" Usar constante del player?? crear nueva o hacerla variable para no usar -1 ni --
 
-        _heartDictionary[HeartToChange]._heartGO.SetActive(true);
-        _heartDictionary[HeartToChange]._heartAnim.enabled = false;
-        _heartDictionary[HeartToChange]._heartIMG.sprite = _hollowHeartImage.sprite;
+        _heartDictionary[heartToChange].HeartGO.SetActive(true);
+        _heartDictionary[heartToChange].HeartAnim.enabled = false;
+        _heartDictionary[heartToChange].HeartIMG.sprite = _hollowHeartImage.sprite;
 
         if (_playerHealth.maxHealth >= _playerHealth.maxHPLimit)
         {
@@ -92,8 +86,6 @@ public class PlayerHealthUIManager : MonoBehaviour
         {
             HealHearts();
         }
-
-
     }
 
     #endregion
@@ -116,7 +108,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void Reset()
     {
-        _playerHealth = FindObjectOfType<PlayerHealth>();
+        _playerHealth = GameManager.instance.playerHealth;
     }
 
     void Start()
@@ -127,18 +119,18 @@ public class PlayerHealthUIManager : MonoBehaviour
         for (int i = default; i < _playerHealth.maxHPLimit; i++)
         {
             GameObject heart = Instantiate(_heart, this.transform);
-            Debug.Log("Instanciated"+heart.name);
+            Debug.Log("Instanciated" + heart.name);
             _heartDictionary.Add(i, heart);
-            _heartDictionary[i]._heartGO.SetActive(false);
-            _heartDictionary[i]._heartAnim.enabled = false;
+            _heartDictionary[i].HeartGO.SetActive(false);
+            _heartDictionary[i].HeartAnim.enabled = false;
         }
         for (int i = default; i < _playerHealth.maxHealth; i++)
         {
-            _heartDictionary[i]._heartGO.SetActive(true);
+            _heartDictionary[i].HeartGO.SetActive(true);
         }
         for (int i = default; i < _playerHealth.health; i++)
         {
-            _heartDictionary[i]._heartAnim.enabled = true;
+            _heartDictionary[i].HeartAnim.enabled = true;
         }
     }
 
